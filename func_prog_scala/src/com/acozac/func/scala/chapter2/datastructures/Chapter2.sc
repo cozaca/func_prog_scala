@@ -104,10 +104,15 @@ object List {
     foldRight(a1, a2)((a, b) => Cons(a,b))
   }
 
-  // ex. 15 Implement append in terms of either foldLeft
+  // ex. 14 Implement append in terms of either foldLeft
   def appendFoldL[A](a1:List[A], a2:List[A]): List[A] = {
     foldLeft(reverse(a1), a2)((b, a) => Cons(a,b))
   }
+
+  // ex. 16 Write a function that transforms a list of integers by adding 1
+  // to each element
+  def transformInt(l:List[Int]): List[Int] =
+    foldRight(l, List[Int]())((a:Int,b:List[Int]) => Cons(a + 1,b))
 
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
@@ -119,13 +124,11 @@ val total = List.sum(example)
 val tailList = List.tail(List(1,2,3,4))
 val dropL = List.drop(List(1,2,3,4,5), 4)
 List.setHead(List(1,2,3,4,5), 9)
-
 List.append(List(1,2,3), List(4,5,6))
 List.init(List(1,2,3,4))
 List.foldRight(List(1.0,2.0,3.0,4.0),0.0)(_+_)
 List.foldRight(List(1.0,2.0,0.0,4.0),1.0)(_ * _)
 List.foldRight(List("1.0","2.0"),"")(_ + _)
-
 List.foldLeft(List(1,2,3,4,4), 0)(_+_)
 List.foldRight(List(1,2,3), Nil:List[Int])(Cons(_,_))
 List.length(List(1,2,3))
@@ -133,3 +136,5 @@ List.lengthRight(List(1,2,3,4,4))
 List.lengthRight(List(1,2,3,4,4))
 List.reverse(List(1,2,3,4))
 List.reverseFold(List(1,2,3,4))
+
+List.transformInt(List(1,2,3,4))
