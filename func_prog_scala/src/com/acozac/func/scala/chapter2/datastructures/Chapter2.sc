@@ -114,6 +114,20 @@ object List {
   def transformInt(l:List[Int]): List[Int] =
     foldRight(l, List[Int]())((a:Int,b:List[Int]) => Cons(a + 1,b))
 
+  // ex. 26 implement hasSubsequence for
+  // checking whether a List contains another List as a subsequence
+  def startsWith[A](sup:List[A], sub:List[A]) : Boolean = (sup, sub) match {
+    case (_, Nil) => true
+    case (Cons(h1, t1), Cons(h2,t2)) => if(h1 == h2) startsWith(t1, t2) else false
+    case _ => false
+  }
+
+  def hasSubsequence[A](l:List[A], s:List[A]) : Boolean = l match {
+    case Nil => false
+    case _ if startsWith(l,s) => true
+    case Cons(x, xs) => hasSubsequence(xs, s)
+  }
+
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -138,3 +152,7 @@ List.reverse(List(1,2,3,4))
 List.reverseFold(List(1,2,3,4))
 
 List.transformInt(List(1,2,3,4))
+
+List.hasSubsequence(List(1,2,4,3,5,6,9,0), List(4,3,5))
+
+List.startsWith(List(1,2,4,3,5,6,9,0), List(1,2,4))
