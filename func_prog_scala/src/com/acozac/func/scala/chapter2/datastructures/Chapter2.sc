@@ -128,6 +128,13 @@ object List {
     case Cons(x, xs) => hasSubsequence(xs, s)
   }
 
+  def hasSubsequence2[A](l1: List[A], l2: List[A]): Boolean = (l1, l2) match {
+    case (_,Nil) =>true
+    case(Nil,_) =>false
+    case (Cons(h1, t1), Cons(h2, t2)) => if (h1==h2) hasSubsequence(t1,t2)
+    else hasSubsequence(t1,l2)
+  }
+
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))

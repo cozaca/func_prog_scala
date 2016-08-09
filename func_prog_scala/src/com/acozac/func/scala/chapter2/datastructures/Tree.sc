@@ -30,6 +30,20 @@ object Tree {
     case Branch(l, r) => Branch(map(l)(f), map(r)(f))
   }
 
+  // ex. 29 Generalize ,size ,max , and depth , writing a newsize maximum depth map
+  // function that abstracts over their similarities
+  // there are not finished yet
+  def fold2[A, B](tree:Tree[A], z:B)(f: (A, B) => B): B = tree match
+  {
+    case Leaf(x) => f(x,z)
+    case Branch(left, right) => fold2(left, fold2(right,z)(f))(f)
+  }
+
+  def fold[A,B](t: Tree[A], f: A => B)(g: (B,B) => B): B = t match {
+    case Leaf(a) => f(a)
+    case Branch(l,r) => g(fold(l, f)(g), fold(r, f)(g))
+  }
+
 }
 val tree = Branch(Branch(Leaf(4), Branch(Leaf(8), Leaf(10))),
   Branch(Branch(Leaf(55), Leaf(21)), Leaf(31)))
@@ -41,3 +55,9 @@ Tree.max(tree)
 Tree.depth(tree)
 
 Tree.map(tree)(x => x+1)
+
+Tree.fold2(tree, 0)((_, y)=> y+1)
+Tree.fold2(tree, 0)((x,y)=>x.max(y))
+Tree.fold[Int, Int](tree, a => 0)((ml, mr) => 1 + ml.max(mr))
+
+Tree.fold[Int, Int](tree, a => 1)((ml, mr) =>  mr + ml )
